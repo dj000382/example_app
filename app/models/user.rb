@@ -20,6 +20,13 @@ class User < ActiveRecord::Base
 	validates :password_confirmation, presence: true
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true , uniqueness: {case_sensitive: false}, format: { with: VALID_EMAIL_REGEX }
+
+	def feed
+    # This is preliminary. See "Following users" for the full implementation.
+    Micropost.where("user_id = ?", id)
+  end
+
+
 private
 	def create_remember_token
 		# create the token
