@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-	before_filter :signed_in_user, only: [:edit, :update]
+	before_filter :signed_in_user, only: [:index, :edit, :update]
   before_filter :correct_user,   only: [:edit, :update]
   def new
 		@user = User.new
@@ -22,6 +22,10 @@ class UsersController < ApplicationController
 	def edit
   end
 
+	def index
+    @users = User.paginate(page: params[:page])
+  end
+
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
@@ -31,7 +35,7 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
-
+	
 	private
 
     def signed_in_user
